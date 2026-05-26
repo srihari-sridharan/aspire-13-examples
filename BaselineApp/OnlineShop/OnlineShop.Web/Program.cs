@@ -1,4 +1,3 @@
-using OnlineShop.ServiceDefaults;
 using OnlineShop.Web;
 using OnlineShop.Web.Components;
 

@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Hosting;
 using OnlineShop.AppHost;
 using OnlineShop.AppHost.Extensions;
 using OnlineShop.MailDev.Hosting;
