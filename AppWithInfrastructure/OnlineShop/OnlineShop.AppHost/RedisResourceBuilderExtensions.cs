@@ -12,8 +12,8 @@ public static class RedisResourceBuilderExtensions
         {
             IconName = "Broom",
             IconVariant = IconVariant.Filled,
-            UpdateState = ctx =>
-                ctx.ResourceSnapshot.HealthStatus == HealthStatus.Healthy
+            UpdateState = commandStateContext =>
+                commandStateContext.ResourceSnapshot.HealthStatus == HealthStatus.Healthy
                     ? ResourceCommandState.Enabled
                     : ResourceCommandState.Disabled
         };
@@ -31,12 +31,12 @@ public static class RedisResourceBuilderExtensions
     private static async Task<ExecuteCommandResult> RunAsync(
         IResourceBuilder<RedisResource> builder)
     {
-        var connStr = await builder.Resource.GetConnectionStringAsync()
+        var connectionString = await builder.Resource.GetConnectionStringAsync()
             ?? throw new InvalidOperationException(
                 "Could not resolve Redis connection string.");
 
-        await using var mux = await ConnectionMultiplexer.ConnectAsync(connStr);
-        var db = mux.GetDatabase();
+        await using var multiplexer = await ConnectionMultiplexer.ConnectAsync(connectionString);
+        var db = multiplexer.GetDatabase();
 
         // Clear everything across all DBs. Prefer FLUSHDB if you only want the current DB.
         await db.ExecuteAsync("FLUSHALL");
