@@ -602,7 +602,7 @@ app.MapPost("/api/orders", async (
         OrderId = orderId,
         TotalAmount = totalAmount
     });
-});
+}).RequireAuthorization();
 
 app.MapDefaultEndpoints();
 
